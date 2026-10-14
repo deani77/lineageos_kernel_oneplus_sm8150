@@ -1,0 +1,48 @@
+name: Selendang OP7 Kernel development build
+on:
+  push:
+    branches: [port-legacy-governors]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: selendang-op7-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  kernel:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 1
+      - name: Install Linux build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-18 llvm-18 lld-18 \
+            gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi \
+            binutils-aarch64-linux-gnu binutils-arm-linux-gnueabi \
+            make bc bison flex libssl-dev libelf-dev python3 rsync cpio
+          echo /usr/lib/llvm-18/bin >> "$GITHUB_PATH"
+      - name: Build Selendang OP7 kernel
+        run: bash build-selendang.sh
+      - name: Upload development kernel artifacts
+        if: success()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: Selendang-OP7-v0.1.0-dev-${{ github.sha }}
+          path: out/selendang-artifacts/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Upload build diagnostics
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: Selendang-OP7-build-diagnostics-${{ github.sha }}
+          path: |
+            out/selendang-artifacts/build.log
+            out/selendang-artifacts/build-info.txt
+            out/selendang-artifacts/kernel.config
+          if-no-files-found: warn
+          retention-days: 14
