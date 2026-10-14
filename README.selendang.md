@@ -21,10 +21,12 @@ fragment as the LineageOS device tree, preserving existing LTO/CFI choices.
 With clang, LLVM tools, an ARM64 linker and ARM64/ARM32 binutils on PATH:
 
 ```sh
-bash build-selendang.sh
+SELENDANG_DTC=/path/to/lineage-dtc/dtc bash build-selendang.sh
 ```
 
-GitHub Actions provides a Linux build using LLVM 18 on Ubuntu 24.04. A build
+GitHub Actions provides a Linux build using LLVM 18 on Ubuntu 24.04 and a
+pinned LineageOS external device-tree compiler (1.7.0). This matches the
+LineageOS build approach: pass DTC_EXT rather than use the bundled 1.4.4 parser. A build
 uploads logs and metadata, and uploads kernel binaries only after a successful
 full build. Build artifacts include Image, Image.gz-dtb, DTBs and modules where
 produced; they are raw development artifacts, not a flashable installer.

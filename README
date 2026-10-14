@@ -1,3 +1,18 @@
+Selendang OP7 Kernel
+===================
+
+Version: 0.1.0-dev
+Device: OnePlus 7 (guacamoleb / SM8150)
+ROM source target: LineageOS lineage-24.0
+Governors: despair, elementalx, intelliactive and blu_active
+Status: development; device testing pending phone repair.
+
+Project documentation: README.selendang.md
+Repository: https://github.com/deani77/lineageos_kernel_oneplus_sm8150
+
+Upstream Linux kernel documentation
+-----------------------------------
+
 Linux kernel
 ============
 

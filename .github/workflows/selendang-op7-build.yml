@@ -25,7 +25,18 @@ jobs:
             binutils-aarch64-linux-gnu binutils-arm-linux-gnueabi \
             make bc bison flex libssl-dev libelf-dev python3 rsync cpio
           echo /usr/lib/llvm-18/bin >> "$GITHUB_PATH"
+      - name: Checkout LineageOS device-tree compiler
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: LineageOS/android_external_dtc
+          ref: c1197f56b8f468effbbf5e79feae353c4280e2ea
+          path: out/lineage-dtc
+          persist-credentials: false
+      - name: Build LineageOS device-tree compiler
+        run: make -C out/lineage-dtc -j"$(nproc)" NO_PYTHON=1 NO_YAML=1 dtc
       - name: Build Selendang OP7 kernel
+        env:
+          SELENDANG_DTC: ${{ github.workspace }}/out/lineage-dtc/dtc
         run: bash build-selendang.sh
       - name: Upload development kernel artifacts
         if: success()
