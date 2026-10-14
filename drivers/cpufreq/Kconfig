@@ -250,6 +250,44 @@ config CPU_FREQ_GOV_INTERACTIVE
 
 	  If in doubt, say N.
 
+config CPU_FREQ_GOV_DESPAIR
+	tristate "'despair' SM8150 port"
+	depends on CPU_FREQ
+	select CPU_FREQ_GOV_COMMON
+	help
+	  Enable the despair governor adapted to this kernel's 4.14 APIs.
+	  See Documentation/cpu-freq/sm8150-legacy-governors.md for port
+	  differences and validation requirements.
+
+config CPU_FREQ_GOV_ELEMENTALX
+	tristate "'elementalx' SM8150 port"
+	depends on CPU_FREQ
+	select CPU_FREQ_GOV_COMMON
+	help
+	  Enable the elementalx governor adapted to this kernel's 4.14 APIs.
+	  See Documentation/cpu-freq/sm8150-legacy-governors.md for port
+	  differences and validation requirements.
+
+config CPU_FREQ_GOV_INTELLIACTIVE
+	tristate "'intelliactive' SM8150 port"
+	depends on CPU_FREQ && INPUT
+	select CPU_FREQ_GOV_ATTR_SET
+	select IRQ_WORK
+	help
+	  Enable the intelliactive governor adapted to this kernel's 4.14 APIs.
+	  See Documentation/cpu-freq/sm8150-legacy-governors.md for port
+	  differences and validation requirements.
+
+config CPU_FREQ_GOV_BLU_ACTIVE
+	tristate "'blu_active' SM8150 port"
+	depends on CPU_FREQ
+	select CPU_FREQ_GOV_ATTR_SET
+	select IRQ_WORK
+	help
+	  Enable the blu_active governor adapted to this kernel's 4.14 APIs.
+	  See Documentation/cpu-freq/sm8150-legacy-governors.md for port
+	  differences and validation requirements.
+
 comment "CPU frequency scaling drivers"
 
 config CPUFREQ_DT
